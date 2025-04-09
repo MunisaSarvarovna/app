@@ -16,9 +16,14 @@ class FrameWorkApp:
         res = Response()
 
         for path , handler in self.routes.items():
-            if path == req.path:
-                handler(req, res)
+            lst=req.path.split("/")
+
+            if path == "/u/id" and len(lst) > 2:
+                handler(req,res,lst[2])
+                if path == req.path:
+                    handler(req,res)
         return res
+
 
     def route(self , path):
         def wrapper(handler):

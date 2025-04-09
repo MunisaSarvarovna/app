@@ -1,40 +1,43 @@
 from http.client import responses
 
 from app import FrameWorkApp
+import json
 
 app = FrameWorkApp()
+
+def load_users():
+    with open("users.json","r") as file:
+        users = json.load(file)
+
+    return users
 
 @app.route("/")
 def main(request, response):
     response.text = "siz glavniy ekrandasiz"
 
-
-
 @app.route("/home")
 def home(request,response):
     response.text ="home pagedan uyquli salom"
-
-
 
 @app.route("/about")
 def about(request,response):
     response.text ="about pagega salom"
 
+@app.route("/u/id")
+def get_info(requests,response,id):
+    users = load_users()
+    user = users.get(id,"bunday yoq")
 
-@app.route("/sardor")
-def sardor(request,response):
-    response.text ="sardordan salom"
+    response.text = json.dumps(user)
 
+@app.route("/admin/{id}")
+def get_info(requests,response,id):
+    admins = load_users()
+    admin = admins.get(id,"bunday yoq")
 
-@app.route("/shabnam")
-def shabnam(request,response):
-    response.text =("ismi:Shabnam,"
-                    "yoshi:16,"
-                    "hobby:rasm chizsh,"
-                    "yoqtirgan rang:sariq,qora,"
-                    "yoqtrgan oqat:kfs,")
+    response.text = json.dumps(admin)
 
 
 
-#glavnida glavni ekran i bita orto haqida malumot
+
 
